@@ -1,6 +1,11 @@
- 
+ import React from 'react'
 
 function Sort() {
+
+  const [sortState,setSortState] = React.useState(0)
+  const sort = ['популярности','цене','алфавиту']
+  
+
     return (
       <div className="sort">
         <div className="sort__label">
@@ -17,13 +22,13 @@ function Sort() {
             />
           </svg>
           <b>Сортировка по:</b>
-          <span>популярности</span>
+          <span>{sort.sortState}</span>
         </div>
         <div className="sort__popup">         
           <ul>
-            <li className="active">популярности</li>
-            <li>цене</li>
-            <li>алфавиту</li>
+            {
+              sort.map((item,index) => (<li onClick={() => setSortState(index)} className={sortState === index ? 'active' : ''} >{item}</li>))
+            }
           </ul>
         </div>
       </div>
