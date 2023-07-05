@@ -9,7 +9,7 @@ function Categories() {
       <div className="categories">
         <ul>          
           {
-            categories.map((item,index) => (<li onClick = {() => setActiveIndex(index)} className={activeIndex === index ? 'active': ''} >{item}</li>))
+            categories.map((item,index) => (<li key={index} onClick = {() => setActiveIndex(index)} className={activeIndex === index ? 'active': ''} >{item}</li>))
           }        
         </ul>
       </div>

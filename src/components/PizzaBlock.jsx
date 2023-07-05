@@ -21,13 +21,12 @@ return(
 <div className="pizza-block__selector">
   <ul>
      {
-      types.map((item,index) => <li onClick={() => setActiveType(index)} className={activeType === index ? 'active':''}>{typesNames[item]}</li>)
-     }
-   
+      types.map((item,index) => <li key={index} onClick={() => setActiveType(index)} className={activeType === index ? 'active':''}>{typesNames[item]}</li>)
+     }   
   </ul>
   <ul>
     {
-    sizes.map((item,index) => <li onClick={() => setActiveSize(index) } className={index === activeSize ? 'active' : ''}>{item} см</li>)
+    sizes.map((item,index) => <li key={index} onClick={() => setActiveSize(index) } className={index === activeSize ? 'active' : ''}>{item} см</li>)
     }   
   </ul>
 </div>
