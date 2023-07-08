@@ -8,9 +8,12 @@ import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
  const Home = () => {
   const [items, setItems] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
+  const [categoryId, setcategoryId] = React.useState(0)
+  const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
 
   React.useEffect(() => {
-    fetch("https://645a6a4a95624ceb210148ff.mockapi.io/items")
+    setIsLoading(true);
+    fetch(`https://645a6a4a95624ceb210148ff.mockapi.io/items?${categoryId > 0 ? `category=${categoryId}` : ''}&sortBy=${sortType.sortProperty}&order=desc`)
       .then((res) => {
         return res.json();
       })
@@ -19,12 +22,12 @@ import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
         setIsLoading(false);
       });
       window.scrollTo(0,0)
-  }, []);
+  }, [categoryId,sortType]);
   return (    
       <div className="container">
         <div className="content__top">
-              <Categories />
-              <Sort />
+              <Categories value={categoryId} onChangeCategory={(i) => setcategoryId(i)}/>
+              <Sort value={sortType} onChangeSort={(i) => setSortType(i)}/>
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
