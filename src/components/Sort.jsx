@@ -3,7 +3,10 @@
 function Sort({value,onChangeSort}) {
   const [open,setOpen] = React.useState(false)
  
-  const list = [{name: 'популярности',sortProperty: 'raiting'},{name: 'цене',sortProperty: 'price'},{name: 'алфавиту',sortProperty: 'title'},]
+  const list = [{name: 'популярности',sortProperty: 'raiting'},
+  {name: 'цене Asc',sortProperty: '-price'},
+  {name: 'цене Desc',sortProperty: 'price'},
+  {name: 'алфавиту',sortProperty: 'title'},]
   
   const onClickListItem = (index) =>{
     onChangeSort(index)
