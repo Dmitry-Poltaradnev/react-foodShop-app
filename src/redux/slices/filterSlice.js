@@ -6,18 +6,6 @@ const initialState = {
 };
 
 const filterSlice = createSlice({
-<<<<<<< HEAD
- name: 'filters',
- initialState,
- reducers: {
-    setCategoryId(state, action){
-      state.categoryId += action.payload
-    }
- }
-})
- export const {setCategoryId} = filterSlice.actions
- export default filterSlice.reducer
-=======
   name: "filters",
   initialState,
   reducers: {
@@ -29,4 +17,3 @@ const filterSlice = createSlice({
 });
 export const { setCategoryId } = filterSlice.actions;
 export default filterSlice.reducer;
->>>>>>> add_new_reduxLogic
