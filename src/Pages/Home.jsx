@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 import React from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
+=======
+import React  from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+>>>>>>> add_new_reduxLogic
 
 import Categories from "../components/Categories";
 import Sort from "../components/Sort";
@@ -8,12 +13,23 @@ import PizzaBlock from "../components/PizzaBlock/PizzaBlock.jsx";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from '../components/Pagination/index'
 import { SearchContext } from '../App';
+import {setCategoryId} from '../redux/slices/filterSlice'
 
 
  const Home = () => {
+<<<<<<< HEAD
    const categoryId = useSelector(state => state.filter.categoryId)
    console.log(categoryId);
    const dispatch = useDispatch()
+=======
+  const dispatch = useDispatch()
+  const categoryId = useSelector((state) => state.filter.categoryId)
+
+
+
+
+
+>>>>>>> add_new_reduxLogic
 
 
   const {searchValue} = React.useContext(SearchContext)
@@ -25,9 +41,18 @@ import { SearchContext } from '../App';
 
   const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
 
+<<<<<<< HEAD
   const onChangeCategory = (id) => {
    console.log(id);
   }
+=======
+
+ const onChangeCategory = (id) =>{
+  console.log(id)
+  dispatch(setCategoryId(id))
+ }
+
+>>>>>>> add_new_reduxLogic
 
   React.useEffect(() => {
     setIsLoading(true);
