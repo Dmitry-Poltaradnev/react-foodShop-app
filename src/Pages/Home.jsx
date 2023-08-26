@@ -1,6 +1,5 @@
-
-
 import React  from 'react'
+import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Categories from "../components/Categories";
@@ -9,12 +8,12 @@ import PizzaBlock from "../components/PizzaBlock/PizzaBlock.jsx";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from '../components/Pagination/index'
 import { SearchContext } from '../App';
-import {setCategoryId} from '../redux/slices/filterSlice'
+import {setCategoryId,setCurrentPage} from '../redux/slices/filterSlice'
 
 
  const Home = () => {
    const dispatch = useDispatch()
-   const {categoryId, sort} = useSelector(state => state.filter)
+   const {categoryId, sort,currentPage} = useSelector(state => state.filter)
   
 
 
@@ -23,7 +22,7 @@ import {setCategoryId} from '../redux/slices/filterSlice'
   const [isLoading, setIsLoading] = React.useState(true);
   // const [categoryId, setcategoryId] = React.useState(0)
 
-  const [currentPage, setCurrentPage] = React.useState(1)
+
 
   // const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
 
@@ -31,6 +30,9 @@ import {setCategoryId} from '../redux/slices/filterSlice'
  const onChangeCategory = (id) =>{
   console.log(id)
   dispatch(setCategoryId(id))
+ }
+ const onChangePage = number =>{
+  dispatch(setCurrentPage(number))
  }
 
 
@@ -42,15 +44,22 @@ import {setCategoryId} from '../redux/slices/filterSlice'
     const sortBy = sort.sortProperty.replace('-','')
     const category = categoryId > 0 ? `category=${categoryId}` : ''
     const search = searchValue ? `&search=${searchValue}` : ''
-
-    fetch(`https://645a6a4a95624ceb210148ff.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
+    // Вместо fetch переписываем на axios
+   /*  fetch(`https://645a6a4a95624ceb210148ff.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`)
       .then((res) => {
         return res.json();
       })
       .then((arr) => {
         setItems(arr);
         setIsLoading(false);
-      });
+      }); */
+      axios.get(`https://645a6a4a95624ceb210148ff.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`).then((res) => {
+        console.log(res);
+        setItems(res.data);
+        setIsLoading(false);
+      })
+
+
       window.scrollTo(0,0)
   }, [categoryId,sort.sortProperty,searchValue, currentPage]);
 
@@ -81,7 +90,7 @@ import {setCategoryId} from '../redux/slices/filterSlice'
                 ? skeletons
                 : pizzas}
             </div>
-           <Pagination onChangePage={(number) => setCurrentPage(number)}/>
+           <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
       </div>    
   )
 }
