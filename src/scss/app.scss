@@ -33,6 +33,18 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 90px  0px;
+    h2{
+     padding-bottom: 30px;
+    }
+    p{
+      font-size: 25px;
+    }
+  }
   &__title {
     margin: 40px 0;
     font-weight: bold;
