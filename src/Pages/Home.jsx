@@ -8,8 +8,7 @@ import Sort, {  sortList } from "../components/Sort";
 import PizzaBlock from "../components/PizzaBlock/PizzaBlock.jsx";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from '../components/Pagination/index'
-import { SearchContext } from '../App';
-import {setCategoryId,setCurrentPage,setFilters} from '../redux/slices/filterSlice'
+import {selectFilter, selectPizzaData, setCategoryId,setCurrentPage,setFilters} from '../redux/slices/filterSlice'
 import {fetchPizzas} from '../redux/slices/pizzaSlice'
 
  const Home = () => {
@@ -18,10 +17,10 @@ import {fetchPizzas} from '../redux/slices/pizzaSlice'
   const isSearch = React.useRef(false)
   const isMounted = React.useRef(false)
 
-  const {categoryId, sort,currentPage} = useSelector(state => state.filter)
-  const {items, status} = useSelector(state => state.pizza)
+  const {categoryId, sort,currentPage, searchValue} = useSelector(selectFilter)
 
-  const {searchValue} = React.useContext(SearchContext)
+  const {items, status} = useSelector(selectPizzaData)
+
   // const [categoryId, setcategoryId] = React.useState(0)
 
   // const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
