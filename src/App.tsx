@@ -1,4 +1,3 @@
-import React from "react";
 import "./scss/app.scss";
 import Header from "./components/Header.jsx";
 import Home from "./Pages/Home.jsx";
