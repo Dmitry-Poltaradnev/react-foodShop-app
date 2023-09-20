@@ -1,7 +1,7 @@
 import "./scss/app.scss";
-import Header from "./components/Header.jsx";
-import Home from "./Pages/Home.jsx";
-import NotFound from "./Pages/NotFound.jsx";
+import Header from "./components/Header";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
 import Cart from "./Pages/Cart";
 
 import { Routes, Route } from "react-router-dom";
