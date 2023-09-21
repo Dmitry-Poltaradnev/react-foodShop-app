@@ -5,13 +5,13 @@ import qs from 'qs'
 
 import Categories from "../components/Categories";
 import Sort, {  sortList } from "../components/Sort";
-import PizzaBlock from "../components/PizzaBlock/PizzaBlock.jsx";
-import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
+import PizzaBlock from "../components/PizzaBlock/PizzaBlock";
+import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from '../components/Pagination/index'
 import {selectFilter, selectPizzaData, setCategoryId,setCurrentPage,setFilters} from '../redux/slices/filterSlice'
 import {fetchPizzas} from '../redux/slices/pizzaSlice'
 
- const Home = () => {
+ const Home:React.FC = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isSearch = React.useRef(false)
@@ -25,11 +25,11 @@ import {fetchPizzas} from '../redux/slices/pizzaSlice'
 
   // const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
 
- const onChangeCategory = (id) =>{
+ const onChangeCategory = (id:number) =>{
   dispatch(setCategoryId(id))
  }
- const onChangePage = number =>{
-  dispatch(setCurrentPage(number))
+ const onChangePage = (page:number) =>{
+  dispatch(setCurrentPage(page))
  }
 
 const getPizzas = async () =>{
@@ -49,7 +49,11 @@ const getPizzas = async () =>{
       setIsLoading(false);
     }); */    
    
-    dispatch(fetchPizzas({order,sortBy,category,search,currentPage}))
+   
+
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({order,sortBy,category,search,currentPage}))
 
 /* try{ 
   console.log(555);
@@ -99,7 +103,7 @@ React.useEffect(() => {
   }, [categoryId,sort.sortProperty,searchValue, currentPage]);
 
   // Фильтрация при динамике
-  const pizzas = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />)
+  const pizzas = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />)
 
   // Фильтрация товаров при статике.
  /*  const pizzas = items.filter(obj => {
@@ -122,7 +126,7 @@ React.useEffect(() => {
             <h2 className="content__title">Все пиццы</h2>
              {status === 'error' ? (
                 <div className='content__error-info'>
-                <h2>Произошла ошибка<icon>😕</icon></h2>
+                <h2>Произошла ошибка<span>😕</span></h2>
                 <p>К сожалению не удалось загрузить пиццы.</p>
                 </div> ) : ( <div className="content__items">
               {status === 'loading'
