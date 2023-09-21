@@ -24,12 +24,17 @@ function Sort() {
     setOpen(false)
   }
   
-  React.useEffect(() => {
-    const handleClickOutside =  (event:any) =>{
-      if(!event.composedPath().includes(sortRef.current)){
-      setOpen(false)
-    }
-  }
+  React.useEffect(() => {   
+      const handleClickOutside: EventListenerOrEventListenerObject = (event) => {
+        let path;
+        if (sortRef.current) {
+          path = event.composedPath().includes(sortRef.current);
+        }
+        if (!path) {
+          setOpen(false);
+          console.log('Clicked outside');
+        }     
+      }
     document.body.addEventListener('click',handleClickOutside)
 
     return () =>  document.body.removeEventListener('click', handleClickOutside)    

@@ -12,18 +12,18 @@ import {setSearchValue} from '../../redux/slices/filterSlice'
   const inputRef = React.useRef<HTMLInputElement>(null) 
 
   const updateSearchValue = React.useCallback(
-    debounce((str: any) => {
+    debounce((str: string) => {
       dispatch(setSearchValue(str))
     },1000),
     [],
   )
    
-  const onChangeInput = (event:any) =>{
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) =>{
     setValue(event.target.value)
     updateSearchValue(event.target.value)
   }
 
-  const onClickClear = () => {
+  const onClickClear = (event:React.MouseEvent<HTMLImageElement>) => {
    dispatch(setSearchValue(''))
    setValue('')
    if(inputRef.current){

@@ -47,9 +47,7 @@ const getPizzas = async () =>{
     .then((arr) => {
       setItems(arr);
       setIsLoading(false);
-    }); */    
-   
-   
+    }); */ 
 
     dispatch(
       // @ts-ignore
@@ -112,8 +110,6 @@ React.useEffect(() => {
     }
     return false
   }).map((obj) => <PizzaBlock key={obj.id} {...obj} />) */
-
-
 
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
