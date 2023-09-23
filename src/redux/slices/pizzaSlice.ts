@@ -1,20 +1,40 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-export const fetchPizzas = createAsyncThunk("pizza/fetchPizzasStatus",
-  async (params) => {
-    // console.log(thunkAPI);
-  // @ts-ignore
-    const { order, sortBy, category, search, currentPage } = params;
 
+type FetchPizzasArgs = Record<string, string>
+
+export const fetchPizzas = createAsyncThunk("pizza/fetchPizzasStatus",
+  async (params:FetchPizzasArgs) => {
+    const { order, sortBy, category, search, currentPage } = params;
     const { data } = await axios.get(
       `https://645a6a4a95624ceb210148ff.mockapi.io/items?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`
     );
-    return data;
+    return data 
   }
 );
-const initialState = {
+
+  type Pizza ={
+    id:string,
+    title:string,
+    price:number,
+    imageUrl:string,
+    sizes:number[],
+    types:number[]
+  }
+
+  export enum Status  {
+    LOADING = 'loading',
+    SUCCESS = 'success',
+    ERROR = 'error'
+  }
+  interface PizzaSliceState {
+    items: Pizza[];
+    status: Status
+  }
+
+const initialState:PizzaSliceState = {
   items: [],
-  status: "loading", //Loading | Success | Error
+  status: Status.LOADING, //Loading | Success | Error
 };
 
 const pizzaSlice = createSlice({
@@ -28,17 +48,17 @@ const pizzaSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
-        state.status = "loading";
+        state.status = Status.LOADING;
         state.items = [];
         console.log("Идёт запрос");
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.status = "success";
+        state.status = Status.SUCCESS;
         console.log("Запрос удачен");
       })
       .addCase(fetchPizzas.rejected, (state) => {
-        state.status = "error";
+        state.status = Status.ERROR;
         state.items = [];
         console.log("Ошибка запроса");
       });

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { addItem, minusItem, removeItem } from '../../redux/slices/cartSlice'
 
 type CartItemMass = {
-  id: string,
+  id:string,
   price: number,
   type: string,
   imageUrl:string,
@@ -16,6 +16,7 @@ type CartItemMass = {
     const dispatch = useDispatch()
 
     const onClickPlus = () => {
+      // @ts-ignore
     dispatch(addItem({id}))
     }
     const onClickMinus = () => {
