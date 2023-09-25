@@ -1,6 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { count } from "console";
 import { RootState } from "../store";
+import { getCartFromLS } from "../../utils/getCartFromLS";
+import { calcTotalPriceR } from "../../utils/calcTotalPrice";
 
 export type CartItem = {
   id:string;
@@ -15,10 +17,11 @@ interface CartSliceState{
   totalPrice:number;
   items: CartItem[]
 } 
+const {items,totalPrice} = getCartFromLS()
 
  const initialState:CartSliceState = {
-  totalPrice: 0,
-  items: [],
+  totalPrice,
+  items,
 };
 
 const cartSlice = createSlice({
@@ -32,11 +35,14 @@ const cartSlice = createSlice({
       } else {
         state.items.push({ ...action.payload, count: 1 });
       }
-      state.totalPrice = state.items.reduce((sum, obj) => {
+      state.totalPrice = calcTotalPriceR(state.items)
+      // ======
+      /* state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
-      }, 0);
+      }, 0); */
+      // =====
     },
-
+    
     minusItem(state, action:PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload);
       if (findItem && findItem.count > 0) {
@@ -45,9 +51,12 @@ const cartSlice = createSlice({
           state.items = state.items.filter((obj) => obj.id !== action.payload);
         }
       }
-      state.totalPrice = state.items.reduce((sum, obj) => {
+      state.totalPrice = calcTotalPriceR(state.items)
+      // ======
+    /*   state.totalPrice = state.items.reduce((sum, obj) => {
         return obj.price * obj.count + sum;
-      }, 0);
+      }, 0); */
+      // ======
     },
 
     removeItem(state, action:PayloadAction<string>) {
@@ -65,3 +74,7 @@ export const selectCartItemById = (id: string) => (state:RootState) => state.car
 
 export const { addItem, removeItem, minusItem, clearItems } = cartSlice.actions;
 export default cartSlice.reducer;
+function calcTotalPrice(items: import("immer/dist/internal").WritableDraft<CartItem>[]): number {
+  throw new Error("Function not implemented.");
+}
+
