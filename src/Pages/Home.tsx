@@ -1,5 +1,5 @@
 import React  from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import qs from 'qs'
 
@@ -10,10 +10,11 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import Pagination from '../components/Pagination/index'
 import {selectFilter, selectPizzaData, setCategoryId,setCurrentPage,setFilters} from '../redux/slices/filterSlice'
 import {fetchPizzas} from '../redux/slices/pizzaSlice'
+import { useAppDispatch } from '../redux/store';
 
  const Home:React.FC = () => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const isSearch = React.useRef(false)
   const isMounted = React.useRef(false)
 
@@ -25,9 +26,9 @@ import {fetchPizzas} from '../redux/slices/pizzaSlice'
 
   // const [sortType,setSortType] = React.useState({name:'популярности', sortProperty:'rating'}) 
 
- const onChangeCategory = (id:number) =>{
+ const onChangeCategory = React.useCallback((id:number) =>{
   dispatch(setCategoryId(id))
- }
+ },[])
  const onChangePage = (page:number) =>{
   dispatch(setCurrentPage(page))
  }
@@ -50,8 +51,7 @@ const getPizzas = async () =>{
     }); */ 
 
     dispatch(
-      // @ts-ignore
-      fetchPizzas({order,sortBy,category,search,currentPage}))
+      fetchPizzas({order,sortBy,category,search,currentPage:String(currentPage)}))
 
 /* try{ 
   console.log(555);
@@ -92,7 +92,6 @@ catch{
 // Если был первый рендер, то запрашиваем пиццы
 React.useEffect(() => {
     window.scrollTo(0,0)
-
     if(!isSearch.current){
       getPizzas()
     }
@@ -113,6 +112,7 @@ React.useEffect(() => {
 
   const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />)
 
+  
   return (    
       <div className="container">
         <div className="content__top">
@@ -122,7 +122,7 @@ React.useEffect(() => {
             <h2 className="content__title">Все пиццы</h2>
              {status === 'error' ? (
                 <div className='content__error-info'>
-                <h2>Произошла ошибка<span>😕</span></h2>
+                <h2>Произошла ошибка <span>😕</span></h2>
                 <p>К сожалению не удалось загрузить пиццы.</p>
                 </div> ) : ( <div className="content__items">
               {status === 'loading'
